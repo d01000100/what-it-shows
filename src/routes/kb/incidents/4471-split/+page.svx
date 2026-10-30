@@ -16,7 +16,6 @@ signature: v1.eyJzdWIiOiI2NjA4IiwiYXVkIjoiY2hhbGxlbmdlOndoYXQtaXQtc2hvd3MiLCJpYX
   const tickets = {
     parser: { label: 'issue 1', href: `${repo}/1` },
     hint: { label: 'issue 2', href: `${repo}/2` },
-    'one-day move': { label: 'issue 3', href: `${repo}/3` },
   };
 </script>
 
@@ -25,7 +24,7 @@ signature: v1.eyJzdWIiOiI2NjA4IiwiYXVkIjoiY2hhbGxlbmdlOndoYXQtaXQtc2hvd3MiLCJpYX
 subjects. Each problem below now has its own ticket, with the reports it covers.
 
 <Callout kind="warn">
-Fixing the parser closes only the first ticket. The other two need their own fixes.
+Fixing the parser closes only the first ticket. The booking-v3 hint needs its own fix.
 </Callout>
 
 ## The problems
@@ -39,8 +38,6 @@ Fixing the parser closes only the first ticket. The other two need their own fix
 2. **hint.** The booking-v3 form prints `MM/DD/YYYY` under its date field. People type month
    first, as told, and the form reads the date day first. Only reports typed into that form
    from a booking-v3 tenant count here.
-3. **one-day move.** The booking moves by one day, or lands on different days in different
-   time zones. Nothing swaps. These are the reports the desk listed as a one-day move.
 
 A report goes to its problem by tenant and channel, as `causes.ts` decides, not by the intake
 tag. Intake guesses from the reporter's browser, and it disagrees with the tenant on many of
@@ -49,7 +46,5 @@ these reports.
 ## For the desk
 
 - A shared subject line does not mean a shared cause. Check tenant and channel before you merge.
-- Read the body when a report does not describe a swap. The one-day moves were already in the
-  desk notes.
 
 <RenderStamp {signature} />
