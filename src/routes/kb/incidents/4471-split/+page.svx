@@ -1,0 +1,55 @@
+---
+layout: runbook
+title: '#4471 · the problems inside it'
+owner: d01000100
+status: open
+reviewed: 2026-10-30
+signature: v1.eyJzdWIiOiI2NjA4IiwiYXVkIjoiY2hhbGxlbmdlOndoYXQtaXQtc2hvd3MiLCJpYXQiOjE3OTMzODk0MTUsImV4cCI6MTc5MzQ3NTgxNX0.31B0vDfEg7dqK2CArubliLqI18evc25TU2BwAIQsJf0
+---
+
+<script>
+  import ProblemTable from '#lib/kb/ProblemTable.svelte';
+  import Callout from '#lib/kb/Callout.svelte';
+  import RenderStamp from '#lib/kb/RenderStamp.svelte';
+
+  const repo = 'https://github.com/d01000100/what-it-shows/issues';
+  const tickets = {
+    parser: { label: 'issue 1', href: `${repo}/1` },
+    hint: { label: 'issue 2', href: `${repo}/2` },
+    'one-day move': { label: 'issue 3', href: `${repo}/3` },
+  };
+</script>
+
+[#4471](/kb/incidents/4471) holds more than one bug. The desk merged its reports by subject line
+([decision 0001](/kb/decisions/0001-dedupe-by-subject)), and different bugs produce the same
+subjects. Each problem below now has its own ticket, with the reports it covers.
+
+<Callout kind="warn">
+Fixing the parser closes only the first ticket. The other two need their own fixes.
+</Callout>
+
+## The problems
+
+<ProblemTable ticket={4471} {tickets} />
+
+## How each report was placed
+
+1. **parser.** The shared parser reads every date month first. Every tenant on file writes the
+   day first, so the day and the month swap.
+2. **hint.** The booking-v3 form prints `MM/DD/YYYY` under its date field. People type month
+   first, as told, and the form reads the date day first. Only reports typed into that form
+   from a booking-v3 tenant count here.
+3. **one-day move.** The booking moves by one day, or lands on different days in different
+   time zones. Nothing swaps. These are the reports the desk listed as a one-day move.
+
+A report goes to its problem by tenant and channel, as `causes.ts` decides, not by the intake
+tag. Intake guesses from the reporter's browser, and it disagrees with the tenant on many of
+these reports.
+
+## For the desk
+
+- A shared subject line does not mean a shared cause. Check tenant and channel before you merge.
+- Read the body when a report does not describe a swap. The one-day moves were already in the
+  desk notes.
+
+<RenderStamp {signature} />
